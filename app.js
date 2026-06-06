@@ -243,6 +243,7 @@ function initConfiguration() {
                 window.history.replaceState({path: newUrl}, '', newUrl);
             } catch (e) {
                 console.error("Failed to update URL after migration:", e);
+            }
         }
     }
     
@@ -585,8 +586,17 @@ function updateUIWithConfig() {
     }
 
     // Load music player audio elements
+    // Don't set audio src until user interaction to prevent autoplay errors
     const audio = document.getElementById('bg-music');
-    audio.src = ytId ? DEFAULT_AUDIO_FALLBACK : (config.songUrl || DEFAULT_AUDIO_FALLBACK);
+    const audioSrc = ytId ? DEFAULT_AUDIO_FALLBACK : (config.songUrl || DEFAULT_AUDIO_FALLBACK);
+    // Only set src if it looks like a valid audio URL (not a YouTube page link)
+    if (audioSrc && !audioSrc.includes('youtube.com') && !audioSrc.includes('youtu.be')) {
+        audio.src = audioSrc;
+    } else {
+        audio.src = DEFAULT_AUDIO_FALLBACK;
+    }
+    // Don't auto-load to prevent console errors before user interaction
+    audio.preload = 'none';
 
     // Slide 7 Surprises
     document.getElementById('quiz-title').innerText = config.quizQuestion;
@@ -693,11 +703,18 @@ function setupEnvelopeGate() {
         
         envelope.classList.add('open');
         
-        audio.play().then(() => {
-            setPlayState(true);
-        }).catch(err => {
-            console.warn("Autoplay blocked. Waiting for user interaction.", err);
-        });
+        // Load and play audio only after user interaction to avoid autoplay blocks
+        try {
+            audio.preload = 'auto';
+            audio.load();
+            audio.play().then(() => {
+                setPlayState(true);
+            }).catch(err => {
+                console.warn("Autoplay blocked. Waiting for user interaction.", err);
+            });
+        } catch (err) {
+            console.warn("Audio play error caught:", err);
+        }
 
         triggerConfetti(window.innerWidth / 2, window.innerHeight / 2 + 100);
 
@@ -721,8 +738,10 @@ function initYTPlayer(ytId) {
         ytPlayer = null;
     }
     
-    // Set origin parameter dynamically to bypass file:// protocol block on YouTube embeds
-    const originUrl = window.location.protocol === 'file:' ? 'https://www.youtube.com' : window.location.origin;
+    // Set origin parameter dynamically — use actual page origin on hosted sites
+    const originUrl = window.location.origin && window.location.origin !== 'null'
+        ? window.location.origin
+        : 'https://nathan16-bv.github.io';
     
     ytPlayer = new YT.Player('yt-player-placeholder', {
         height: '100%',
@@ -1902,6 +1921,10 @@ function spawnKissParticles(x, y) {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
+
+    // Ensure settings drawer starts closed (remove any stale class)
+    const drawerEl = document.getElementById('settings-drawer');
+    if (drawerEl) drawerEl.classList.remove('open');
 
     initConfiguration();
     startAnniversaryTimer();
