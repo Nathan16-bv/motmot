@@ -39,7 +39,7 @@ const DEFAULTS = {
 [90] Extra, extra, read all about it
 [94] Malcolm's in his feelings and he can't get out of it`,
     quizQuestion: "Do you love me?",
-    scratchMessage: "You hold the key to my heart. Let's go on a special date this weekend!",
+    scratchMessage: "It's never been a secret that I love you always, no matter what happens!",
     photos: [
         { url: "assets/romantic_bg.png", caption: "Slide 1: Title Screen Background" },
         { url: "assets/uploaded_70af1a28482c9473ecd80b20dfe07efa.jpg", caption: "Slide 2: Letter - Left Photo 💋" },
