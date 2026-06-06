@@ -42,6 +42,10 @@ body {
     line-height: 1.5;
 }
 
+.hidden {
+    display: none !important;
+}
+
 canvas#hearts-canvas {
     position: fixed;
     top: 0;
