@@ -39,7 +39,7 @@ const DEFAULTS = {
 [90] Extra, extra, read all about it
 [94] Malcolm's in his feelings and he can't get out of it`,
     quizQuestion: "Do you love me?",
-    scratchMessage: "It's never been a secret that I love you always, no matter what happens!",
+    scratchMessage: "I always love you.\nI always choose you.\nI will always care for you.",
     photos: [
         { url: "assets/romantic_bg.png", caption: "Slide 1: Title Screen Background" },
         { url: "assets/uploaded_70af1a28482c9473ecd80b20dfe07efa.jpg", caption: "Slide 2: Letter - Left Photo 💋" },
@@ -243,8 +243,14 @@ function initConfiguration() {
                 window.history.replaceState({path: newUrl}, '', newUrl);
             } catch (e) {
                 console.error("Failed to update URL after migration:", e);
-            }
         }
+    }
+    
+    // Auto-migrate old scratch message to the new custom text
+    if (config.scratchMessage === "You hold the key to my heart. Let's go on a special date this weekend!" || 
+        config.scratchMessage === "It's never been a secret that I love you always, no matter what happens!") {
+        config.scratchMessage = DEFAULTS.scratchMessage;
+        localStorage.setItem('love_site_config', JSON.stringify(config));
     }
     
     // Pad photos to exactly 15 elements for template mapping
