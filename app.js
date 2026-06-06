@@ -590,7 +590,7 @@ function updateUIWithConfig() {
 
     // Slide 7 Surprises
     document.getElementById('quiz-title').innerText = config.quizQuestion;
-    document.getElementById('scratch-secret-text').innerText = config.scratchMessage;
+    document.getElementById('scratch-secret-text').innerHTML = (config.scratchMessage || '').replace(/\n/g, '<br>');
     setupScratchCard();
 
     // Coupons Box
