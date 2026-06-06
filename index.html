@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Love 💌</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Hearts Background Canvas -->
+    <canvas id="hearts-canvas"></canvas>
+
+    <!-- 1. ENVELOPE GATE (LANDING SCREEN) -->
+    <div id="envelope-gate" class="active">
+        <div class="envelope-gate-container">
+            <h1 class="envelope-gate-title">You got a mail!</h1>
+            <div class="envelope-wrapper">
+                <div class="envelope">
+                    <div class="flap"></div>
+                    <div class="pocket"></div>
+                    <div class="letter-card">
+                        <div class="letter-card-preview">
+                            <h3>A Special Message</h3>
+                            <p>To my favorite person... ❤️</p>
+                        </div>
+                    </div>
+                    <div class="wax-seal">
+                        <svg viewBox="0 0 100 100" class="wax-seal-svg">
+                            <defs>
+                                <radialGradient id="gold-gradient" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#fff0bd" />
+                                    <stop offset="70%" stop-color="#dfba4c" />
+                                    <stop offset="100%" stop-color="#9a7418" />
+                                </radialGradient>
+                            </defs>
+                            <circle cx="50" cy="50" r="42" fill="url(#gold-gradient)" />
+                            <circle cx="50" cy="50" r="34" fill="#dfba4c" opacity="0.4" stroke="#8c6810" stroke-width="1"/>
+                            <path d="M50 28 C42 20 30 25 35 42 C40 54 48 62 50 68 C52 62 60 54 65 42 C70 25 58 20 50 28 Z" fill="#9a7418" opacity="0.8" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <span class="click-text-under">Click the wax to open</span>
+        </div>
+    </div>
+
+    <!-- 2. MAIN APPLICATION CONTENT -->
+    <main id="main-content">
+        <!-- Slideshow Wrapper -->
+        <div id="slides-deck" class="slides-deck">
+            
+            <!-- Slide 1: Title Slide -->
+            <div class="slide-pane active" id="slide-pane-1">
+                <div class="slide-bg-blur" id="title-bg-img"></div>
+                <div class="title-slide-content">
+                    <h1 class="title-greeting" id="slide-title-greeting">Happy 6th Monthsary My Love!</h1>
+                    <div class="heart-doodle-path">
+                        <svg viewBox="0 0 100 30" class="heart-line-svg">
+                            <path d="M10,20 Q30,5 50,20 T90,20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="2,2"/>
+                            <path d="M50,13 C48,9 44,9 44,12 C44,16 50,20 50,20 C50,20 56,16 56,12 C56,9 52,9 50,13 Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Flanked Letter Slide -->
+            <div class="slide-pane" id="slide-pane-2">
+                <div class="slide-letter-wrapper">
+                    <div class="letter-flank-left">
+                        <div class="letter-photo-frame">
+                            <img id="letter-img-left" src="" alt="Couple Left">
+                        </div>
+                    </div>
+                    <div class="letter-center-card">
+                        <h2 class="letter-center-title">HAPPY MONTHSARY, MY LOVE! <span class="edit-letter-trigger" style="cursor: pointer; font-size: 0.95rem; opacity: 0.6; margin-left: 8px;" title="Edit Letter">✏️</span></h2>
+                        <div class="letter-center-content-box">
+                            <p id="letter-center-text"></p>
+                        </div>
+                    </div>
+                    <div class="letter-flank-right">
+                        <div class="letter-photo-frame">
+                            <img id="letter-img-right" src="" alt="Couple Right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Collage Slide -->
+            <div class="slide-pane" id="slide-pane-3">
+                <h2 class="collage-title" id="collage-slide-title">Our 6 Months Together</h2>
+                <div class="collage-container" id="collage-polaroids-container">
+                    <svg class="collage-svg-path" id="collage-svg-path" viewBox="0 0 800 500">
+                        <path id="dotted-connector-path" d="M90,220 C200,90 280,380 400,240 C520,100 620,410 710,220" fill="none" stroke="var(--primary-color)" stroke-width="3" stroke-dasharray="8,8"/>
+                    </svg>
+                    <!-- 7 Polaroids will be dynamically injected here -->
+                </div>
+            </div>
+
+            <!-- Slide 4: Filmstrip Slide -->
+            <div class="slide-pane" id="slide-pane-4">
+                <h2 class="filmstrip-title">MY FAVORITE PERSON</h2>
+                
+                <div class="filmstrip-reel-container">
+                    <div class="filmstrip-reel">
+                        <div class="filmstrip-sprockets top">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="filmstrip-frames">
+                            <div class="filmstrip-frame" id="filmstrip-frame-1">
+                                <div class="filmstrip-img-wrapper">
+                                    <img id="filmstrip-img-1" src="" alt="Film Photo 1">
+                                </div>
+                            </div>
+                            <div class="filmstrip-frame" id="filmstrip-frame-2">
+                                <div class="filmstrip-img-wrapper">
+                                    <img id="filmstrip-img-2" src="" alt="Film Photo 2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filmstrip-sprockets bottom">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filmstrip-footer">
+                    <span class="filmstrip-footer-text">I LOVE YOU SO MUCH!</span>
+                    <span class="filmstrip-footer-doodle">
+                        <svg viewBox="0 0 40 40" width="30" height="30">
+                            <path d="M20,10 C18,6 12,6 12,10 C12,15 20,20 20,20 C20,20 28,15 28,10 C28,6 22,6 20,10 Z" fill="var(--primary-color)"/>
+                            <path d="M5,30 Q15,35 35,28" fill="none" stroke="var(--primary-color)" stroke-width="2"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <!-- Cute SVG cartoon penguins -->
+                <div class="penguin-decor left-penguin">
+                    <svg viewBox="0 0 100 100" width="90" height="90">
+                        <ellipse cx="50" cy="55" rx="25" ry="32" fill="#2d2d2d" />
+                        <ellipse cx="50" cy="61" rx="18" ry="24" fill="white" />
+                        <circle cx="43" cy="40" r="3.5" fill="black" />
+                        <circle cx="57" cy="40" r="3.5" fill="black" />
+                        <polygon points="50,44 45,49 55,49" fill="#ffa500" />
+                        <circle cx="37" cy="46" r="3" fill="#ffb6c1" opacity="0.8"/>
+                        <circle cx="63" cy="46" r="3" fill="#ffb6c1" opacity="0.8"/>
+                        <ellipse cx="37" cy="85" rx="7" ry="3.5" fill="#ffa500" />
+                        <ellipse cx="63" cy="85" rx="7" ry="3.5" fill="#ffa500" />
+                        <!-- Red bow tie for left penguin -->
+                        <polygon points="50,56 43,52 43,60" fill="var(--primary-color)"/>
+                        <polygon points="50,56 57,52 57,60" fill="var(--primary-color)"/>
+                        <circle cx="50" cy="56" r="2.5" fill="white" />
+                    </svg>
+                </div>
+                <div class="penguin-decor right-penguin">
+                    <svg viewBox="0 0 100 100" width="90" height="90">
+                        <ellipse cx="50" cy="55" rx="25" ry="32" fill="#2d2d2d" />
+                        <ellipse cx="50" cy="61" rx="18" ry="24" fill="white" />
+                        <circle cx="43" cy="40" r="3.5" fill="black" />
+                        <circle cx="57" cy="40" r="3.5" fill="black" />
+                        <polygon points="50,44 45,49 55,49" fill="#ffa500" />
+                        <circle cx="37" cy="46" r="3" fill="#ffb6c1" opacity="0.8"/>
+                        <circle cx="63" cy="46" r="3" fill="#ffb6c1" opacity="0.8"/>
+                        <ellipse cx="37" cy="85" rx="7" ry="3.5" fill="#ffa500" />
+                        <ellipse cx="63" cy="85" rx="7" ry="3.5" fill="#ffa500" />
+                        <!-- Red heart on head for right penguin -->
+                        <path d="M50,23 C48,19 44,19 44,22 C44,25 50,29 50,29 C50,29 56,25 56,22 C56,19 52,19 50,23 Z" fill="var(--primary-color)"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Slide 5: Scrapbook Slide -->
+            <div class="slide-pane" id="slide-pane-5">
+                <div class="scrapbook-wrapper">
+                    <!-- Left Notebook Page -->
+                    <div class="scrapbook-page page-left">
+                        <div class="polaroid-taped">
+                            <div class="tape top-left"></div>
+                            <div class="polaroid-taped-img">
+                                <img id="scrapbook-polaroid-img" src="" alt="Scrapbook Memory">
+                            </div>
+                            <div class="polaroid-taped-caption" id="scrapbook-polaroid-caption">You and Me 💑</div>
+                        </div>
+                        <div class="hand-drawn-doodle">
+                            <svg viewBox="0 0 120 70" class="couple-doodle-svg">
+                                <circle cx="40" cy="22" r="6" fill="none" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="40" y1="28" x2="40" y2="46" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="40" y1="34" x2="28" y2="40" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="40" y1="34" x2="52" y2="34" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="40" y1="46" x2="32" y2="58" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="40" y1="46" x2="48" y2="58" stroke="var(--primary-color)" stroke-width="2"/>
+                                
+                                <circle cx="80" cy="20" r="6" fill="none" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="80" y1="26" x2="80" y2="44" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="80" y1="32" x2="68" y2="32" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="80" y1="32" x2="92" y2="38" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="80" y1="44" x2="72" y2="56" stroke="var(--primary-color)" stroke-width="2"/>
+                                <line x1="80" y1="44" x2="88" y2="56" stroke="var(--primary-color)" stroke-width="2"/>
+                                
+                                <path d="M52,34 Q60,28 68,32" fill="none" stroke="var(--primary-color)" stroke-width="2"/>
+                                <path d="M60,13 C59,10 55,10 55,13 C55,16 60,19 60,19 C60,19 65,16 65,13 C65,10 61,10 60,13 Z" fill="var(--primary-color)"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Right Notebook Page -->
+                    <div class="scrapbook-page page-right lined-paper">
+                        <h3 class="notebook-title">💌 Our Story <span class="edit-story-trigger" style="cursor: pointer; font-size: 0.85rem; opacity: 0.6; margin-left: 8px;" title="Edit Story">✏️</span></h3>
+                        <div class="notebook-letter-body" id="scrapbook-letter-text"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Dedicated Music Slide -->
+            <div class="slide-pane" id="slide-pane-6">
+                <h2 class="reminds-title">This song reminds me of you</h2>
+                
+                <div class="music-slide-content">
+                    <!-- Spinning vinyl record -->
+                    <div class="vinyl-disk-wrapper">
+                        <div id="slide-vinyl-record" class="vinyl-record-big">
+                            <div class="vinyl-groove-big"></div>
+                            <div id="slide-vinyl-center" class="vinyl-center-label-big"></div>
+                        </div>
+                        <div id="slide-vinyl-needle" class="vinyl-needle-big"></div>
+                    </div>
+                    
+                    <!-- Media Cover Card / YouTube Embed Card -->
+                    <div class="media-card-wrapper">
+                        <div id="video-card-container" class="video-card-container">
+                            <!-- Populated dynamically by JS with cover image & play state overlay or iframe -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Synced lyrics snippet display -->
+                <div class="slide-lyrics-bar">
+                    <p id="slide-lyrics-display" class="slide-lyric-active">🎵 Play track to show synchronized lyrics... 🎵</p>
+                </div>
+                
+                <!-- Floating music notes background -->
+                <div class="floating-notes-container" id="music-slide-notes"></div>
+            </div>
+
+            <!-- Slide 7: Interactives & Countdown Dashboard -->
+            <div class="slide-pane" id="slide-pane-7">
+                <div class="interactives-dashboard">
+                    
+                    <!-- Relationship Clock Widget -->
+                    <div class="dashboard-widget counter-widget">
+                        <p class="counter-label">Days we've been together</p>
+                        <div class="counter-grid">
+                            <div class="counter-box">
+                                <span id="counter-days" class="counter-num">00</span>
+                                <span class="counter-unit">Days</span>
+                            </div>
+                            <div class="counter-box">
+                                <span id="counter-hours" class="counter-num">00</span>
+                                <span class="counter-unit">Hours</span>
+                            </div>
+                            <div class="counter-box">
+                                <span id="counter-minutes" class="counter-num">00</span>
+                                <span class="counter-unit">Mins</span>
+                            </div>
+                            <div class="counter-box">
+                                <span id="counter-seconds" class="counter-num">00</span>
+                                <span class="counter-unit">Secs</span>
+                            </div>
+                        </div>
+                        <!-- Kiss clicker -->
+                        <div class="kiss-widget-container">
+                            <button id="send-kiss-btn" class="btn-kiss">Send a Kiss 💋</button>
+                            <span id="kiss-counter-label" class="kiss-counter">Kisses sent: 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Surprises Area -->
+                    <div class="dashboard-grid">
+                        
+                        <!-- Runaway Quiz -->
+                        <div class="dashboard-widget quiz-widget love-quiz-card">
+                            <h3>Ask Me Anything 💘</h3>
+                            <p class="quiz-question" id="quiz-title">Do you love me?</p>
+                            <div class="quiz-buttons" id="quiz-buttons-container">
+                                <button id="quiz-yes" class="btn btn-yes">YES! 💕</button>
+                                <button id="quiz-no" class="btn btn-no">No 💔</button>
+                            </div>
+                            <div id="quiz-success-msg" class="quiz-success hidden">
+                                <h4>I knew it! 🥰</h4>
+                                <p>I love you infinitely more, forever and ever!</p>
+                            </div>
+                        </div>
+
+                        <!-- Scratch Ticket -->
+                        <div class="dashboard-widget scratch-widget scratch-card-container">
+                            <h3>Secret Ticket 🎫</h3>
+                            <p class="scratch-instruction">Scratch below to reveal a secret note!</p>
+                            <div class="scratch-canvas-wrapper">
+                                <canvas id="scratch-canvas" width="280" height="150"></canvas>
+                                <div class="scratch-secret-message">
+                                    <span class="heart-icon">💖</span>
+                                    <p id="scratch-secret-text"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Love Coupons -->
+                        <div class="dashboard-widget coupon-widget coupons-container">
+                            <h3>Love Coupons 🎟️</h3>
+                            <p class="coupons-instruction">Open the box to claim your coupons!</p>
+                            <div id="gift-box-wrapper" class="gift-box-wrapper">
+                                <div class="gift-box" id="clickable-gift-box">
+                                    <div class="gift-lid"></div>
+                                    <div class="gift-box-body"></div>
+                                    <div class="gift-ribbon-horizontal"></div>
+                                    <div class="gift-ribbon-vertical"></div>
+                                    <div class="gift-bow"></div>
+                                </div>
+                            </div>
+                            <div id="coupons-list" class="coupons-list hidden"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+
+    <div id="settings-drawer" class="settings-drawer">
+        <div class="drawer-header">
+            <h2>Customize Site 💖</h2>
+            <button id="close-drawer-btn" class="close-btn">&times;</button>
+        </div>
+        <div class="drawer-body">
+            <p class="drawer-description">Personalize this template! Save changes to view locally, or export a shareable URL to send to your partner. (Trigger this drawer with Ctrl + Shift + S or Double-click the greeting!)</p>
+            
+            <form id="settings-form">
+                <!-- Names & Date -->
+                <div class="form-group-section-title">Core Details</div>
+                <div class="form-group">
+                    <label for="cfg-partner-name">Partner's Name</label>
+                    <input type="text" id="cfg-partner-name" placeholder="Partner Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-sender-name">Your Name</label>
+                    <input type="text" id="cfg-sender-name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-anniversary-date">Anniversary Start Date</label>
+                    <input type="datetime-local" id="cfg-anniversary-date" required>
+                </div>
+
+                <!-- Colors & Theme Customizer -->
+                <div class="form-group-section-title">Theme Colors & Design 🎨</div>
+                <div class="form-group">
+                    <label for="cfg-primary-color">Primary Theme Color</label>
+                    <input type="color" id="cfg-primary-color" value="#fe2c55">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-accent-color">Accent Text Color</label>
+                    <input type="color" id="cfg-accent-color" value="#a82245">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-gradient">Background Backdrop</label>
+                    <select id="cfg-bg-gradient">
+                        <option value="pink-blossom">🌸 Rose Blossom (Default)</option>
+                        <option value="lofi-sunset">🌇 Lofi Sunset (Peach & Lavender)</option>
+                        <option value="lavender-field">🪻 Lavender Dream (Purple & Blue)</option>
+                        <option value="cozy-night">🌌 Cozy Lofi Night (Dark Mode)</option>
+                    </select>
+                </div>
+
+                <!-- Custom Letter -->
+                <div class="form-group-section-title">Love Letter & Story 💌</div>
+                <div class="form-group">
+                    <label for="cfg-letter-text">Love Letter Content (Slide 2)</label>
+                    <textarea id="cfg-letter-text" rows="5" placeholder="Write your sweet love letter here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-story-text">Our Story Content (Slide 5 Scrapbook)</label>
+                    <textarea id="cfg-story-text" rows="5" placeholder="Write your scrapbook story here..."></textarea>
+                </div>
+
+                <!-- Music Config -->
+                <div class="form-group-section-title">Music Player 🎵</div>
+                <div class="form-group">
+                    <label for="cfg-song-title">Song Title</label>
+                    <input type="text" id="cfg-song-title" placeholder="Song Title">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-song-artist">Artist</label>
+                    <input type="text" id="cfg-song-artist" placeholder="Artist Name">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-song-url">Audio Link (MP3 Direct URL or YouTube Watch Link)</label>
+                    <input type="url" id="cfg-song-url" placeholder="https://example.com/song.mp3 or https://youtube.com/watch?v=...">
+                    <span id="cfg-song-url-warning" class="input-tip" style="color: #fe2c55; display: none; font-weight: bold; margin-top: 6px;">⚠️ Warning: Link does not look like a direct MP3 or YouTube video/watch link. Please check formatting.</span>
+                    <span class="input-tip">Provide a direct MP3 link for background audio, or a YouTube video link to embed on the music slide!</span>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-lyrics-text">Lyrics (Sync format: [ss] Text or [mm:ss] Text)</label>
+                    <textarea id="cfg-lyrics-text" rows="4" placeholder="[0] Happy Monthsary!\n[5] I will always choose you\n[10] You're my forever"></textarea>
+                </div>
+
+                <!-- Secret message & Quiz -->
+                <div class="form-group-section-title">Mini Surprises 🎁</div>
+                <div class="form-group">
+                    <label for="cfg-quiz-question">Quiz Question</label>
+                    <input type="text" id="cfg-quiz-question" placeholder="Do you love me?">
+                </div>
+                <div class="form-group">
+                    <label for="cfg-scratch-message">Scratch Card Message</label>
+                    <input type="text" id="cfg-scratch-message" placeholder="Secret message hidden under scratch card.">
+                </div>
+
+                <!-- Photos URL Config -->
+                <div class="form-group-section-title">Polaroid & Slide Memories 📸</div>
+                <div id="cfg-photos-container" class="polaroid-inputs-container">
+                    <!-- Injected dynamically by JS (descriptive role-labeled inputs) -->
+                </div>
+
+                <!-- Slide Backgrounds Config -->
+                <div class="form-group-section-title">Slide Backgrounds 🖼️</div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide1">Slide 1: Title Slide Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide1" placeholder="Image URL / Hex Color / Gradient (e.g. #ffe3ec)" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide1" data-file-target="file-bg-slide1" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide1" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide2">Slide 2: Letter Card Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide2" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide2" data-file-target="file-bg-slide2" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide2" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide3">Slide 3: Collage Page Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide3" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide3" data-file-target="file-bg-slide3" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide3" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide4">Slide 4: Filmstrip Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide4" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide4" data-file-target="file-bg-slide4" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide4" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide5">Slide 5: Scrapbook Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide5" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide5" data-file-target="file-bg-slide5" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide5" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide6">Slide 6: Music Page Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide6" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide6" data-file-target="file-bg-slide6" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide6" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfg-bg-slide7">Slide 7: Interactives Background</label>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <input type="text" id="cfg-bg-slide7" placeholder="Image URL / Hex Color / Gradient" style="flex: 1; margin: 0;">
+                        <button type="button" class="btn btn-export upload-bg-btn" data-target="cfg-bg-slide7" data-file-target="file-bg-slide7" style="margin: 0; padding: 8px 12px; font-size: 0.8rem; width: auto; white-space: nowrap; height: 44px; border-radius: 10px;">📁 Upload</button>
+                        <input type="file" id="file-bg-slide7" accept="image/*" style="display: none;">
+                    </div>
+                    <span class="input-tip">Leave blank to keep default templates. Accepts hex color codes (e.g. #fe2c55), gradients (e.g. linear-gradient(...)), or image paths/links.</span>
+                </div>
+
+                <!-- Coupons Config -->
+                <div class="form-group-section-title">Love Coupons 🎟️</div>
+                <div id="cfg-coupons-container" class="polaroid-inputs-container">
+                    <!-- Injected dynamically by JS -->
+                </div>
+                <button type="button" id="cfg-add-coupon-btn" class="btn btn-export" style="margin-top: 10px; font-size: 0.85rem; padding: 6px 12px; width: 100%;">+ Add Coupon</button>
+
+                <div class="drawer-actions">
+                    <button type="submit" class="btn btn-save">Save Changes 💾</button>
+                    <button type="button" id="cfg-export-btn" class="btn btn-export">Get Shareable Link 🔗</button>
+                    <button type="button" id="cfg-reset-btn" class="btn btn-reset">Reset defaults</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal for Polaroid click zoom -->
+    <div id="lightbox-modal" class="lightbox-modal">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" alt="Zoomed memory">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <!-- HTML5 Audio Element (hidden) -->
+    <audio id="bg-music" loop preload="auto"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
