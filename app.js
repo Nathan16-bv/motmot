@@ -591,6 +591,7 @@ function updateUIWithConfig() {
     // Slide 7 Surprises
     document.getElementById('quiz-title').innerText = config.quizQuestion;
     document.getElementById('scratch-secret-text').innerText = config.scratchMessage;
+    setupScratchCard();
 
     // Coupons Box
     const couponsList = document.getElementById('coupons-list');
@@ -1063,6 +1064,7 @@ function setupRunawayButton() {
 
 function setupScratchCard() {
     const canvas = document.getElementById('scratch-canvas');
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
 
@@ -1088,6 +1090,12 @@ function setupScratchCard() {
         ctx.textAlign = 'center';
         ctx.fillText('Scratch with Love 💖', canvas.width / 2, canvas.height / 2 + 5);
     }
+
+    if (canvas.getAttribute('data-initialized') === 'true') {
+        resetScratch();
+        return;
+    }
+    canvas.setAttribute('data-initialized', 'true');
 
     resetScratch();
 
