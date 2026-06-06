@@ -507,9 +507,44 @@
         <div id="lightbox-caption" class="lightbox-caption"></div>
     </div>
 
+    <!-- Share Link & QR Code Modal -->
+    <div id="share-modal" class="share-modal">
+        <div class="share-modal-content">
+            <span class="share-modal-close" id="share-modal-close-btn">&times;</span>
+            <div class="share-modal-header">
+                <h2>Scan & Share 💖</h2>
+                <p>Send this page to your partner!</p>
+            </div>
+            <div class="share-modal-body">
+                <!-- QR Code Box -->
+                <div class="qr-code-wrapper">
+                    <div id="qrcode" class="qrcode-canvas-container"></div>
+                    <div class="qr-heart-overlay">
+                        <svg viewBox="0 0 100 100" class="qr-heart-svg">
+                            <path d="M50 28 C42 20 30 25 35 42 C40 54 48 62 50 68 C52 62 60 54 65 42 C70 25 58 20 50 28 Z" fill="#fe2c55" stroke="#fff" stroke-width="3"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <p class="qr-instructions">Scan with your phone camera to open instantly!</p>
+                
+                <!-- Shareable link text box -->
+                <div class="share-link-input-container">
+                    <input type="text" id="share-link-text" readonly>
+                    <button id="copy-share-link-btn" class="btn btn-export">Copy</button>
+                </div>
+                <div class="share-actions-row">
+                    <button id="download-qr-btn" class="btn btn-save">Download QR Code 📥</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- HTML5 Audio Element (hidden) -->
     <audio id="bg-music" loop preload="auto"></audio>
 
+    <!-- QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

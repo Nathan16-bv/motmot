@@ -219,8 +219,8 @@ function initConfiguration() {
 
     config = { ...DEFAULTS, ...config };
 
-    // Migrate any base64 data URLs to physical asset paths
-    migrateBase64ToAssets();
+    // Keep browser-uploaded base64 images intact on reload
+    // migrateBase64ToAssets();
     
     // Auto-migrate if the config contains old default song, restricted official song, or search page links
     if (config.songUrl.includes("dQw4w9WgXcQ") || 
@@ -361,9 +361,21 @@ function getYouTubeId(url) {
 function getMonthsTogether(startDateStr) {
     const target = new Date(startDateStr);
     const now = new Date();
+    
     let diffMonths = (now.getFullYear() - target.getFullYear()) * 12 + (now.getMonth() - target.getMonth());
+    
+    if (now < target) return 0;
+    
     if (now.getDate() < target.getDate()) {
-        diffMonths--;
+        const lastDayOfCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        const isLastDay = now.getDate() === lastDayOfCurrentMonth;
+        
+        if (!isLastDay) {
+            const dayDiff = target.getDate() - now.getDate();
+            if (dayDiff > 2) {
+                diffMonths--;
+            }
+        }
     }
     return diffMonths;
 }
@@ -1701,19 +1713,7 @@ function setupCustomizerDrawer() {
             const base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
             const shareUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?c=${base64Str}`;
             
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                if (shareUrl.length > 8000) {
-                    alert("⚠️ WARNING: The generated link is very long (" + shareUrl.length + " characters) because of local image uploads. Some chat apps or email clients might cut it off. Consider uploading fewer local images if you experience issues sharing!");
-                }
-                if (window.location.protocol === 'file:') {
-                    alert("🔗 Share URL copied to clipboard!\n\n⚠️ IMPORTANT: You are running this file locally on your computer (starts with 'file:///'). This link will ONLY work on this specific computer. To share it with other devices (like your partner's phone), you must upload this folder to a web host like GitHub Pages or Vercel and send the link from there!");
-                } else {
-                    alert("🔗 Customized share URL copied to clipboard!\n\nSend this link to your partner to let them view your customized gift page!");
-                }
-            }).catch(err => {
-                console.log("Clipboard copy failed:", err);
-                prompt("Could not copy automatically. Please copy the link below manually:", shareUrl);
-            });
+            showShareModal(shareUrl);
             
         } catch (e) {
             console.error("Failed to generate share link:", e);
@@ -1874,6 +1874,156 @@ document.addEventListener('DOMContentLoaded', () => {
     setupHeartCursorTrail();
     setupFloatingMusicNotes();
     setupKissWidget();
+    setupShareModal();
     
     console.log("All systems initialized successfully!");
 });
+
+// ==========================================
+// CUSTOM SHARE & QR CODE MODAL LOGIC
+// ==========================================
+
+let qrCodeInstance = null;
+
+function showShareModal(shareUrl) {
+    const modal = document.getElementById("share-modal");
+    const linkInput = document.getElementById("share-link-text");
+    const qrContainer = document.getElementById("qrcode");
+    const copyBtn = document.getElementById("copy-share-link-btn");
+    
+    linkInput.value = shareUrl;
+    copyBtn.innerText = "Copy";
+    copyBtn.style.background = "";
+    copyBtn.style.color = "";
+    
+    // Clear old QR code
+    qrContainer.innerHTML = "";
+    
+    // Generate new QR code using CDN library
+    try {
+        qrCodeInstance = new QRCode(qrContainer, {
+            text: shareUrl,
+            width: 180,
+            height: 180,
+            colorDark: config.themePrimaryColor || "#fe2c55",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    } catch (e) {
+        console.error("Failed to generate QR code:", e);
+        qrContainer.innerHTML = "<p style='color:red; font-size:0.8rem;'>QR Generation Failed</p>";
+    }
+    
+    // Open modal
+    modal.style.display = "flex";
+    setTimeout(() => modal.classList.add("active"), 50);
+    
+    // Auto-copy to clipboard
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        copyBtn.innerText = "Copied! ✓";
+        copyBtn.style.background = "#d4edda";
+        copyBtn.style.color = "#155724";
+        setTimeout(() => {
+            copyBtn.innerText = "Copy";
+            copyBtn.style.background = "";
+            copyBtn.style.color = "";
+        }, 3000);
+    }).catch(err => {
+        console.warn("Auto-copy blocked or failed:", err);
+    });
+}
+
+function setupShareModal() {
+    const modal = document.getElementById("share-modal");
+    const closeBtn = document.getElementById("share-modal-close-btn");
+    const copyBtn = document.getElementById("copy-share-link-btn");
+    const linkInput = document.getElementById("share-link-text");
+    const downloadBtn = document.getElementById("download-qr-btn");
+    
+    // Close modal triggers
+    closeBtn.addEventListener("click", closeShareModal);
+    modal.addEventListener("click", e => {
+        if (e.target === modal) closeShareModal();
+    });
+    
+    // Copy button
+    copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+            copyBtn.innerText = "Copied! ✓";
+            copyBtn.style.background = "#d4edda";
+            copyBtn.style.color = "#155724";
+            setTimeout(() => {
+                copyBtn.innerText = "Copy";
+                copyBtn.style.background = "";
+                copyBtn.style.color = "";
+            }, 2000);
+        });
+    });
+    
+    // Download QR Code with overlay heart
+    downloadBtn.addEventListener("click", () => {
+        const originalCanvas = document.querySelector("#qrcode canvas");
+        if (!originalCanvas) {
+            alert("QR Code image is still loading or could not be generated.");
+            return;
+        }
+        
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = originalCanvas.width;
+        tempCanvas.height = originalCanvas.height;
+        const ctx = tempCanvas.getContext("2d");
+        
+        // Draw main QR code
+        ctx.drawImage(originalCanvas, 0, 0);
+        
+        // Define overlay size (approx 22% of canvas width)
+        const size = tempCanvas.width * 0.22;
+        const x = (tempCanvas.width - size) / 2;
+        const y = (tempCanvas.height - size) / 2;
+        
+        // 1. Draw a white backing circle to mask QR blocks behind the heart
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(tempCanvas.width / 2, tempCanvas.height / 2, (size / 2) + 3, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 2. Draw a beautiful red heart matching the SVG shape
+        ctx.fillStyle = config.themePrimaryColor || "#fe2c55";
+        
+        const d = size;
+        const hx = x;
+        const hy = y;
+        
+        ctx.beginPath();
+        ctx.moveTo(hx, hy + d / 4);
+        ctx.quadraticCurveTo(hx, hy, hx + d / 4, hy);
+        ctx.quadraticCurveTo(hx + d / 2, hy, hx + d / 2, hy + d / 4);
+        ctx.quadraticCurveTo(hx + d / 2, hy, hx + (d * 3) / 4, hy);
+        ctx.quadraticCurveTo(hx + d, hy, hx + d, hy + d / 4);
+        ctx.quadraticCurveTo(hx + d, hy + d / 2, hx + (d * 3) / 4, hy + (d * 3) / 4);
+        ctx.lineTo(hx + d / 2, hy + d);
+        ctx.lineTo(hx + d / 4, hy + (d * 3) / 4);
+        ctx.quadraticCurveTo(hx, hy + d / 2, hx, hy + d / 4);
+        ctx.closePath();
+        ctx.fill();
+        
+        // 3. Draw a clean white stroke contour around the heart
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = Math.max(2, tempCanvas.width * 0.015);
+        ctx.stroke();
+        
+        // Trigger download
+        const link = document.createElement("a");
+        link.download = `love_qr_${(config.partnerName || 'gift').replace(/\s+/g, '_')}.png`;
+        link.href = tempCanvas.toDataURL("image/png");
+        link.click();
+    });
+}
+
+function closeShareModal() {
+    const modal = document.getElementById("share-modal");
+    modal.classList.remove("active");
+    setTimeout(() => {
+        modal.style.display = "none";
+    }, 300);
+}

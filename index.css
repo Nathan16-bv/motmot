@@ -1803,10 +1803,258 @@ canvas#scratch-canvas {
 }
 
 /* ==========================================================================
-   7. RESPONSIVE MEDIA QUERIES (ADAPTING FOR SCREEN SIZES)
+   6.1 SHARE LINK & QR CODE MODAL
    ========================================================================== */
 
+.share-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(18, 9, 13, 0.75);
+    backdrop-filter: blur(12px);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.share-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.share-modal-content {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 24px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: var(--glass-shadow), 0 20px 50px rgba(0,0,0,0.15);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--text-main);
+    text-align: center;
+}
+
+.share-modal.active .share-modal-content {
+    transform: translateY(0);
+}
+
+.share-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.share-modal-close:hover {
+    color: var(--primary-color);
+}
+
+.share-modal-header h2 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    margin: 0 0 6px 0;
+    color: var(--accent-color);
+}
+
+.share-modal-header p {
+    font-size: 0.9rem;
+    margin: 0 0 24px 0;
+    color: var(--text-sub);
+}
+
+.qr-code-wrapper {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 15px auto;
+    background: white;
+    padding: 10px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qrcode-canvas-container canvas,
+.qrcode-canvas-container img {
+    width: 180px !important;
+    height: 180px !important;
+    display: block;
+}
+
+.qr-heart-overlay {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.qr-heart-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+
+.qr-instructions {
+    font-size: 0.82rem;
+    color: var(--text-sub);
+    margin: 0 0 20px 0;
+}
+
+.share-link-input-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.share-link-input-container input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    font-size: 0.85rem;
+    background: rgba(255,255,255,0.8);
+    color: #555;
+    outline: none;
+    text-overflow: ellipsis;
+}
+
+.share-link-input-container button {
+    width: auto;
+    padding: 0 16px;
+    margin: 0;
+    height: 38px;
+    border-radius: 10px;
+}
+
+.share-actions-row button {
+    height: 42px;
+    border-radius: 12px;
+    margin: 0;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE MEDIA QUERIES (ADAPTING FOR ALL SCREEN SIZES)
+   ========================================================================== */
+
+/* -- Allow slides to grow beyond viewport on small screens -- */
+.slide-pane {
+    height: auto;
+    min-height: 100vh;
+}
+
+/* ---- LARGE TABLETS & SMALL LAPTOPS (1024px and below) ---- */
+@media (max-width: 1024px) {
+    .title-greeting {
+        font-size: 4rem;
+    }
+    .envelope-gate-title {
+        font-size: 3rem;
+    }
+    .slide-letter-wrapper {
+        gap: 25px;
+        max-width: 800px;
+    }
+    .letter-flank-left,
+    .letter-flank-right {
+        width: 170px;
+    }
+    .letter-photo-frame img {
+        height: 200px;
+    }
+    .collage-container {
+        max-width: 700px;
+        height: 450px;
+    }
+    .scrapbook-wrapper {
+        max-width: 700px;
+    }
+    .music-slide-content {
+        max-width: 700px;
+    }
+    .vinyl-disk-wrapper {
+        width: 210px;
+        height: 210px;
+    }
+    .media-card-wrapper {
+        width: 280px;
+        height: 180px;
+    }
+    .reminds-title {
+        font-size: 2.6rem;
+    }
+    .interactives-dashboard {
+        max-width: 750px;
+    }
+}
+
+/* ---- TABLETS & iPads (768px and below) ---- */
 @media (max-width: 768px) {
+    .slide-pane {
+        padding: 40px 16px 70px 16px;
+    }
+
+    /* Envelope */
+    .envelope-gate-title {
+        font-size: 2.4rem;
+    }
+    .envelope {
+        width: 260px;
+        height: 180px;
+    }
+    .flap {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-top-width: 100px;
+    }
+    .pocket {
+        border-left-width: 130px;
+        border-right-width: 130px;
+        border-bottom-width: 90px;
+    }
+    .letter-card {
+        width: 230px;
+        height: 155px;
+        left: 15px;
+        top: 10px;
+        padding: 18px;
+    }
+    .letter-card-preview h3 {
+        font-size: 1.1rem;
+    }
+    .letter-card-preview p {
+        font-size: 0.75rem;
+    }
+    .wax-seal {
+        top: 80px;
+        width: 52px;
+        height: 52px;
+    }
+
+    /* Slide 1 Title */
+    .title-greeting {
+        font-size: 2.8rem;
+    }
+
+    /* Slide 2 Letter */
     .slide-letter-wrapper {
         flex-direction: column;
         gap: 20px;
@@ -1814,7 +2062,12 @@ canvas#scratch-canvas {
     }
     .letter-center-card {
         order: 1;
-        padding: 24px;
+        padding: 24px 20px;
+        max-width: 100%;
+    }
+    .letter-center-content-box {
+        max-height: 200px;
+        font-size: 0.88rem;
     }
     .letter-flank-left {
         order: 2;
@@ -1833,14 +2086,23 @@ canvas#scratch-canvas {
     .letter-photo-frame img {
         height: 160px;
     }
-    
-    /* Scale Collage down on small screens */
-    .collage-container {
-        transform: scale(0.65);
-        transform-origin: top center;
-        height: 340px;
+
+    /* Slide 3 Collage */
+    .collage-title {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
     }
-    
+    .collage-container {
+        transform: scale(0.6);
+        transform-origin: top center;
+        height: 320px;
+    }
+
+    /* Slide 4 Filmstrip */
+    .filmstrip-title {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+    }
     .filmstrip-reel-container {
         max-width: 440px;
     }
@@ -1851,28 +2113,51 @@ canvas#scratch-canvas {
         width: 8px;
         height: 6px;
     }
-    
+    .penguin-decor {
+        bottom: 20px;
+    }
+    .penguin-decor svg {
+        width: 65px;
+        height: 65px;
+    }
+
+    /* Slide 5 Scrapbook */
     .scrapbook-wrapper {
         flex-direction: column;
-        min-height: 480px;
+        min-height: auto;
     }
     .scrapbook-wrapper::before {
         display: none;
     }
     .scrapbook-page {
         width: 100%;
-        padding: 20px;
+        padding: 25px 20px;
     }
     .scrapbook-page.page-left {
         border-bottom: 1px dashed #e5ded5;
+        padding-bottom: 20px;
     }
     .polaroid-taped {
-        width: 150px;
+        width: 160px;
     }
     .polaroid-taped-img {
-        height: 110px;
+        height: 120px;
     }
-    
+    .notebook-letter-body {
+        max-height: 220px;
+    }
+    .lined-paper {
+        padding-left: 35px;
+    }
+    .lined-paper::after {
+        left: 28px;
+    }
+
+    /* Slide 6 Music */
+    .reminds-title {
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+    }
     .music-slide-content {
         flex-direction: column;
         gap: 20px;
@@ -1886,33 +2171,237 @@ canvas#scratch-canvas {
         height: 58px;
     }
     .media-card-wrapper {
-        width: 270px;
+        width: 280px;
         height: 170px;
     }
-    
-    .title-greeting {
-        font-size: 3rem;
+    .slide-lyrics-bar {
+        max-width: 90%;
+    }
+
+    /* Slide 7 Interactives */
+    .interactives-dashboard {
+        gap: 18px;
+    }
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .counter-num {
+        font-size: 1.8rem;
+    }
+    .dashboard-widget {
+        padding: 18px;
+    }
+
+    /* Settings drawer */
+    .settings-drawer {
+        width: 340px;
+    }
+
+    /* Nav controls */
+    .deck-controls {
+        padding: 6px 14px;
+        gap: 14px;
     }
 }
 
+/* ---- PHONES (480px and below) ---- */
 @media (max-width: 480px) {
+    .slide-pane {
+        padding: 30px 12px 65px 12px;
+    }
+
+    /* Envelope */
+    .envelope-gate-title {
+        font-size: 1.8rem;
+    }
+    .envelope-gate-container {
+        gap: 20px;
+    }
+    .envelope {
+        width: 220px;
+        height: 152px;
+    }
+    .flap {
+        border-left-width: 110px;
+        border-right-width: 110px;
+        border-top-width: 85px;
+    }
+    .pocket {
+        border-left-width: 110px;
+        border-right-width: 110px;
+        border-bottom-width: 76px;
+    }
+    .letter-card {
+        width: 190px;
+        height: 130px;
+        left: 15px;
+        top: 8px;
+        padding: 14px;
+    }
+    .letter-card-preview h3 {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+    }
+    .letter-card-preview p {
+        font-size: 0.7rem;
+    }
+    .wax-seal {
+        top: 65px;
+        width: 44px;
+        height: 44px;
+    }
+    .click-text-under {
+        font-size: 0.72rem;
+        letter-spacing: 1.5px;
+    }
+
+    /* Slide 1 Title */
+    .title-greeting {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    .heart-doodle-path {
+        width: 110px;
+    }
+
+    /* Slide 2 Letter */
+    .letter-center-card {
+        padding: 18px 14px;
+    }
+    .letter-center-title {
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+        margin-bottom: 14px;
+    }
+    .letter-center-content-box {
+        font-size: 0.82rem;
+        max-height: 160px;
+        line-height: 1.6;
+    }
+    .letter-flank-left,
+    .letter-flank-right {
+        width: 120px;
+    }
+    .letter-photo-frame img {
+        height: 130px;
+    }
+    .letter-photo-frame {
+        border-width: 5px;
+        border-bottom-width: 16px;
+    }
+
+    /* Slide 3 Collage */
+    .collage-title {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
     .collage-container {
-        transform: scale(0.46);
+        transform: scale(0.42);
         transform-origin: top center;
-        height: 240px;
+        height: 220px;
+    }
+
+    /* Slide 4 Filmstrip */
+    .filmstrip-title {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 15px;
     }
     .filmstrip-reel-container {
-        max-width: 320px;
+        max-width: 300px;
     }
     .filmstrip-img-wrapper {
-        height: 90px;
+        height: 85px;
     }
     .filmstrip-sprockets span {
-        width: 6px;
-        height: 5px;
+        width: 5px;
+        height: 4px;
     }
+    .filmstrip-frames {
+        padding: 10px;
+        gap: 8px;
+    }
+    .filmstrip-frame {
+        padding: 5px 5px 16px 5px;
+    }
+    .filmstrip-footer-text {
+        font-size: 0.85rem;
+    }
+    .penguin-decor {
+        bottom: 15px;
+    }
+    .penguin-decor svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Slide 5 Scrapbook */
+    .scrapbook-page {
+        padding: 18px 14px;
+    }
+    .polaroid-taped {
+        width: 130px;
+    }
+    .polaroid-taped-img {
+        height: 95px;
+    }
+    .polaroid-taped-caption {
+        font-size: 1.15rem;
+        margin-top: 6px;
+    }
+    .hand-drawn-doodle {
+        width: 90px;
+        margin-top: 18px;
+    }
+    .notebook-title {
+        font-size: 1.1rem;
+        margin-bottom: 14px;
+    }
+    .notebook-letter-body {
+        font-size: 0.85rem;
+        max-height: 170px;
+        line-height: 2em;
+    }
+    .lined-paper {
+        padding-left: 28px;
+        background-size: 100% 2em;
+    }
+    .lined-paper::after {
+        left: 22px;
+    }
+
+    /* Slide 6 Music */
+    .reminds-title {
+        font-size: 1.7rem;
+        margin-bottom: 12px;
+    }
+    .vinyl-disk-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+    .vinyl-center-label-big {
+        width: 45px;
+        height: 45px;
+    }
+    .vinyl-needle-big {
+        width: 55px;
+        height: 75px;
+    }
+    .media-card-wrapper {
+        width: 240px;
+        height: 150px;
+    }
+    .slide-lyrics-bar {
+        padding: 10px 14px;
+    }
+    .slide-lyric-active {
+        font-size: 0.85rem;
+    }
+
+    /* Slide 7 Interactives */
     .counter-num {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
     .counter-unit {
         font-size: 0.6rem;
@@ -1920,19 +2409,138 @@ canvas#scratch-canvas {
     .counter-grid {
         gap: 6px;
     }
-    .title-greeting {
-        font-size: 2.3rem;
+    .counter-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
     }
-    .reminds-title {
-        font-size: 2.2rem;
+    .dashboard-widget {
+        padding: 14px;
+        border-radius: 14px;
     }
+    .dashboard-widget h3 {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
+    .quiz-question {
+        font-size: 1rem;
+        margin-bottom: 14px;
+    }
+    .scratch-canvas-wrapper {
+        width: 220px;
+        height: 115px;
+    }
+    canvas#scratch-canvas {
+        width: 220px;
+        height: 115px;
+    }
+    .love-quiz-card,
+    .scratch-widget,
+    .coupons-container {
+        min-height: 200px;
+    }
+    .kiss-widget-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .btn-kiss {
+        font-size: 0.78rem;
+        padding: 7px 14px;
+    }
+
+    /* Bottom controls repositioning */
     .floating-audio-capsule {
-        bottom: 75px;
+        bottom: 70px;
         left: 50%;
         transform: translateX(-50%);
     }
     .floating-audio-capsule:hover {
         transform: translateX(-50%) translateY(-2px);
+    }
+    .deck-controls {
+        padding: 5px 12px;
+        gap: 10px;
+        bottom: 15px;
+    }
+    .deck-nav-btn {
+        width: 26px;
+        height: 26px;
+    }
+    .slide-dot {
+        font-size: 0.75rem;
+    }
+    .deck-dots {
+        gap: 7px;
+    }
+
+    /* Settings drawer full width on phone */
+    .settings-drawer {
+        width: 100%;
+    }
+}
+
+/* ---- VERY SMALL PHONES (360px and below) ---- */
+@media (max-width: 360px) {
+    .title-greeting {
+        font-size: 1.65rem;
+    }
+    .envelope-gate-title {
+        font-size: 1.5rem;
+    }
+    .envelope {
+        width: 190px;
+        height: 132px;
+    }
+    .flap {
+        border-left-width: 95px;
+        border-right-width: 95px;
+        border-top-width: 72px;
+    }
+    .pocket {
+        border-left-width: 95px;
+        border-right-width: 95px;
+        border-bottom-width: 66px;
+    }
+    .letter-card {
+        width: 165px;
+        height: 114px;
+        left: 12px;
+        padding: 10px;
+    }
+    .wax-seal {
+        top: 56px;
+        width: 38px;
+        height: 38px;
+    }
+    .collage-container {
+        transform: scale(0.35);
+        height: 185px;
+    }
+    .filmstrip-reel-container {
+        max-width: 260px;
+    }
+    .filmstrip-img-wrapper {
+        height: 70px;
+    }
+    .vinyl-disk-wrapper {
+        width: 115px;
+        height: 115px;
+    }
+    .media-card-wrapper {
+        width: 200px;
+        height: 130px;
+    }
+    .reminds-title {
+        font-size: 1.4rem;
+    }
+    .counter-num {
+        font-size: 1.3rem;
+    }
+    .letter-flank-left,
+    .letter-flank-right {
+        width: 100px;
+    }
+    .letter-photo-frame img {
+        height: 110px;
     }
 }
 
