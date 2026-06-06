@@ -1501,6 +1501,8 @@ function setupHiddenDrawerTriggers() {
 function setupInlineEditTriggers() {
     const letterTrigger = document.querySelector('.edit-letter-trigger');
     const storyTrigger = document.querySelector('.edit-story-trigger');
+    const scratchTrigger = document.querySelector('.edit-scratch-trigger');
+    const quizTrigger = document.querySelector('.edit-quiz-trigger');
     const drawer = document.getElementById('settings-drawer');
     
     if (letterTrigger) {
@@ -1522,6 +1524,34 @@ function setupInlineEditTriggers() {
             e.stopPropagation();
             drawer.classList.add('open');
             const inputEl = document.getElementById('cfg-story-text');
+            if (inputEl) {
+                setTimeout(() => {
+                    inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => inputEl.focus(), 300);
+                }, 300); // Wait for drawer open transition
+            }
+        });
+    }
+
+    if (scratchTrigger) {
+        scratchTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            drawer.classList.add('open');
+            const inputEl = document.getElementById('cfg-scratch-message');
+            if (inputEl) {
+                setTimeout(() => {
+                    inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => inputEl.focus(), 300);
+                }, 300); // Wait for drawer open transition
+            }
+        });
+    }
+
+    if (quizTrigger) {
+        quizTrigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            drawer.classList.add('open');
+            const inputEl = document.getElementById('cfg-quiz-question');
             if (inputEl) {
                 setTimeout(() => {
                     inputEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
